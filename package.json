@@ -1,0 +1,27 @@
+{
+  "name": "xema-js",
+  "version": "0.1.0",
+  "description": "A schema validator with subset checking and data generation",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "nyc mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmarCastro/xema-js.git"
+  },
+  "author": "Omar Castro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OmarCastro/xema-js/issues"
+  },
+  "homepage": "https://github.com/OmarCastro/xema-js#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "nyc": "^11.3.0"
+  }
+}
