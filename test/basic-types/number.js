@@ -49,17 +49,61 @@ describe("testing number schema subset validation", () => {
   it("should show error when division validation value is different", () => {
     const subsetResult1 = number.integer().checkSubsetOf(number.integer().divisibleBy(2));
     subsetResult1.isSubset.should.be.false
-    subsetResult1.reason.should.eq('division check of expected value 1 is not divisible by other value = 2');
+    subsetResult1.reason.should.eq('source division check value = 1 is not divisible by target value = 2');
     
-    const subsetResult2 = number.integer().checkSubsetOf(number.integer().divisibleBy(1.25));
+    const subsetResult2 = number.integer().checkSubsetOf(number.divisibleBy(1.25));
     subsetResult2.isSubset.should.be.false
-    subsetResult2.reason.should.eq('division check of expected value 1 is not divisible by other value = 1.25');
+    subsetResult2.reason.should.eq('source division check value = 1 is not divisible by target value = 1.25');
   })
   
-  it("should be a subset on any camp", () => {
-    const subsetResult =  number.min(0).max(10).checkSubsetOf(number);
-    subsetResult.isSubset.should.be.true
-    should.not.exist(subsetResult.reason)
+   it("should show error when max value is bigger than target", () => {
+    const subsetResult1 = number.max(11).checkSubsetOf(number.max(10));
+    subsetResult1.isSubset.should.be.false
+    subsetResult1.reason.should.eq('target maximum value = 10 is smaller than source value = 11');
+    
+    const subsetResult2 = number.integer().max(1101).checkSubsetOf(number.integer().max(1000));
+    subsetResult2.isSubset.should.be.false
+    subsetResult2.reason.should.eq('target maximum value = 1000 is smaller than source value = 1101');
+  })
+  
+  it("should show error when min value is smaller than target", () => {
+    const subsetResult1 = number.min(10).checkSubsetOf(number.min(11));
+    subsetResult1.isSubset.should.be.false
+    subsetResult1.reason.should.eq('target minimum value = 11 is bigger than source value = 10');
+    
+    const subsetResult2 = number.integer().min(-1101).checkSubsetOf(number.integer().min(-1000));
+    subsetResult2.isSubset.should.be.false
+    subsetResult2.reason.should.eq('target minimum value = -1000 is bigger than source value = -1101');
+  })
+  
+  it("should be a subset max and min boundary inside taget", () => {
+    const subsetResult1 =  number.min(0).max(10).checkSubsetOf(number);
+    subsetResult1.isSubset.should.be.true;
+    should.not.exist(subsetResult1.reason);
+    
+    const subsetResult2 =  number.min(-3).max(0.25).checkSubsetOf(number.min(-10).max(1));
+    subsetResult2.isSubset.should.be.true;
+    should.not.exist(subsetResult2.reason);
+  })
+  
+  it("should be a subset on divisible diision check", () => {
+    const subsetResult1 =  number.divisibleBy(10).checkSubsetOf(number.divisibleBy(1.25));
+    subsetResult1.isSubset.should.be.true;
+    should.not.exist(subsetResult1.reason);
+    
+    const subsetResult2 =  number.divisibleBy(2).checkSubsetOf(number.integer());
+    subsetResult2.isSubset.should.be.true;
+    should.not.exist(subsetResult2.reason);
+  })
+  
+  it("should be a subset if equal", () => {
+    const subsetResult1 =  number.min(0).max(10).checkSubsetOf(number.min(0).max(10));
+    subsetResult1.isSubset.should.be.true;
+    should.not.exist(subsetResult1.reason);
+    
+    const subsetResult2 =  number.min(-9999).max(9999).checkSubsetOf(number.min(-9999).max(9999));
+    subsetResult2.isSubset.should.be.true;
+    should.not.exist(subsetResult2.reason);
   })
 
 })
