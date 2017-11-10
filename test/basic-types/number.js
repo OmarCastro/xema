@@ -86,7 +86,7 @@ describe("testing number schema subset validation", () => {
     should.not.exist(subsetResult2.reason);
   })
   
-  it("should be a subset on divisible diision check", () => {
+  it("should be a subset on divisible division check", () => {
     const subsetResult1 =  number.divisibleBy(10).checkSubsetOf(number.divisibleBy(1.25));
     subsetResult1.isSubset.should.be.true;
     should.not.exist(subsetResult1.reason);
@@ -94,6 +94,12 @@ describe("testing number schema subset validation", () => {
     const subsetResult2 =  number.divisibleBy(2).checkSubsetOf(number.integer());
     subsetResult2.isSubset.should.be.true;
     should.not.exist(subsetResult2.reason);
+  })
+  
+  it("should be a subset of target without division check", () => {
+    const subsetResult =  number.divisibleBy(2).checkSubsetOf(number);
+    subsetResult.isSubset.should.be.true;
+    should.not.exist(subsetResult.reason);
   })
   
   it("should be a subset if equal", () => {
@@ -104,6 +110,10 @@ describe("testing number schema subset validation", () => {
     const subsetResult2 =  number.min(-9999).max(9999).checkSubsetOf(number.min(-9999).max(9999));
     subsetResult2.isSubset.should.be.true;
     should.not.exist(subsetResult2.reason);
+    
+    const subsetResult3 =  number.checkSubsetOf(number);
+    subsetResult3.isSubset.should.be.true;
+    should.not.exist(subsetResult3.reason);
   })
 
 })

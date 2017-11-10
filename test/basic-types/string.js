@@ -16,8 +16,30 @@ describe("testing string validation", () => {
 })
 
 describe("testing string schema subset validation", () => {
-  it("should be a subset on any camp", () => {
-    string.startsWith('Lorem').endsWith('ipsum').isSubsetOf(string).should.be.true
+  
+ 
+  it("should be a subset if equal - enumeration in the same order", () => {
+    const subsetResult =  string.oneOf("a","b","c").isSubsetOf(string.oneOf("a","b","c"))
+    subsetResult.isSubset.should.be.true;
+    should.not.exist(subsetResult.reason);
+  }) 
+  
+  it("should be a subset if equal - enumeration in different order", () => {
+    const subsetResult =  string.oneOf("a","b","c").isSubsetOf(string.oneOf("c","a","b"))
+    subsetResult.isSubset.should.be.true;
+    should.not.exist(subsetResult.reason);
+  }) 
+  
+  it("should be a subset if equal - startsWith & endsWith", () => {
+    const subsetResult =  string.startsWith('Lorem').endsWith('ipsum').isSubsetOf(string.startsWith('Lorem').endsWith('ipsum'))
+    subsetResult.isSubset.should.be.true;
+    should.not.exist(subsetResult.reason);
+  })
+  
+  it("should be a subset if equal", () => {  
+    const subsetResult =  string.isSubsetOf(string)
+    subsetResult.isSubset.should.be.true;
+    should.not.exist(subsetResult.reason);
   })
 
 })
