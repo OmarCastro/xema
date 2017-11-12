@@ -69,6 +69,12 @@ describe("testing string schema subset validation", () => {
     subsetResult.isSubset.should.be.false;
     subsetResult.reason.should.eq('source contains value = "ipsum" is different than target value = "ipsun"');
   })
+  
+  it("should show error if source does not have enumeration check while target has", () => {
+    const subsetResult =  string.checkSubsetOf(string.oneOf("c","a","b"))
+    subsetResult.isSubset.should.be.false;
+    subsetResult.reason.should.eq('source does not have enum check while target has { c, a, b }');
+  }) 
  
  it("should show error if enumeration is not a subset", () => {
     const subsetResult =  string.oneOf("a","b","c", "d").checkSubsetOf(string.oneOf("c","a","b"))
