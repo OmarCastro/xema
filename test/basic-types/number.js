@@ -117,3 +117,48 @@ describe("testing number schema subset validation", () => {
   })
 
 })
+
+
+describe("testing number schema data generation", () => {
+   it("should generate any number", () => {
+    var it = number.generateSequentialData()
+    for(var c of it){
+        should.not.exist(number.validate(c).error)
+    }
+  })
+  
+  it("should generate any integer", () => {
+    var schema = number.integer()
+    var it = schema.generateSequentialData()
+    for(var c of it){
+        should.not.exist(schema.validate(c).error)
+    }
+  })
+  
+  it("should generate any integer pair", () => {
+    var schema = number.integer().divisibleBy(2)
+    var it = schema.generateSequentialData()
+    for(var c of it){
+        should.not.exist(schema.validate(c).error)
+    }
+  })
+  
+   it("should generate any positive integer pair", () => {
+    var schema = number.integer().divisibleBy(2).min(0)
+    var it = schema.generateSequentialData()
+    for(var c of it){
+        should.not.exist(schema.validate(c).error)
+    }
+  })
+  
+ it("should generate any positive integer pai less than 10", () => {
+    var schema = number.integer().divisibleBy(2).min(0).max(10)
+    var it = schema.generateSequentialData()
+    var result = []
+    for(var c of it){
+       result.push(c);
+    }
+    result.should.deep.eql([0,2,4,6,8,10]);
+  })
+
+})
