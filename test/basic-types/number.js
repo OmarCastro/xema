@@ -119,39 +119,42 @@ describe("testing number schema subset validation", () => {
 })
 
 
-describe("testing number schema data generation", () => {
+describe("testing number schema sequential data generation", () => {
+  function shouldNotShowAnyErrors(iterator, schema){
+    let noErrors = true
+    for(var c of iterator){
+        noErrors = noErrors && (schema.validate(c).error == null)
+    }
+    noErrors.should.be.true
+  }
+  
    it("should generate any number", () => {
     var it = number.generateSequentialData()
-    for(var c of it){
-        should.not.exist(number.validate(c).error)
-    }
+    shouldNotShowAnyErrors(number.generateSequentialData(), number)
+  })
+  
+  it("should generate any quarter", () => {
+    var schema = number.divisibleBy(0.25);
+    shouldNotShowAnyErrors(schema.generateSequentialData(), schema);
   })
   
   it("should generate any integer", () => {
-    var schema = number.integer()
-    var it = schema.generateSequentialData()
-    for(var c of it){
-        should.not.exist(schema.validate(c).error)
-    }
+    var schema = number.integer();
+    shouldNotShowAnyErrors(schema.generateSequentialData(), schema);
+
   })
   
   it("should generate any integer pair", () => {
-    var schema = number.integer().divisibleBy(2)
-    var it = schema.generateSequentialData()
-    for(var c of it){
-        should.not.exist(schema.validate(c).error)
-    }
+    var schema = number.integer().divisibleBy(2);
+    shouldNotShowAnyErrors(schema.generateSequentialData(), schema);
   })
   
    it("should generate any positive integer pair", () => {
-    var schema = number.integer().divisibleBy(2).min(0)
-    var it = schema.generateSequentialData()
-    for(var c of it){
-        should.not.exist(schema.validate(c).error)
-    }
+    var schema = number.integer().divisibleBy(2).min(0);
+    shouldNotShowAnyErrors(schema.generateSequentialData(), schema);
   })
   
- it("should generate any positive integer pai less than 10", () => {
+ it("should generate any positive integer pair less than 10", () => {
     var schema = number.integer().divisibleBy(2).min(0).max(10)
     var it = schema.generateSequentialData()
     var result = []
@@ -159,6 +162,53 @@ describe("testing number schema data generation", () => {
        result.push(c);
     }
     result.should.deep.eql([0,2,4,6,8,10]);
+  })
+
+})
+
+describe("testing number schema random data generation", () => {
+  function shouldNotShowAnyErrors(iterator, schema){
+    let noErrors = true
+    for(var c of iterator){
+        noErrors = noErrors && (schema.validate(c).error == null)
+    }
+    noErrors.should.be.true
+  }
+  
+  it("should generate any number", () => {
+    shouldNotShowAnyErrors(number.generateRandomData(), number)
+  })
+  
+  it("should generate any quarter", () => {
+    var schema = number.divisibleBy(0.25)
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema)
+
+  })
+  
+  it("should generate any integer", () => {
+    var schema = number.integer()
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema)
+
+  })
+  
+  it("should generate any integer pair", () => {
+    var schema = number.integer().divisibleBy(2)
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema)
+  })
+  
+   it("should generate any positive integer pair", () => {
+    var schema = number.integer().divisibleBy(2).min(0)
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema)
+  })
+  
+ it("should generate any positive integer pair less than 10", () => {
+    var schema = number.integer().divisibleBy(2).min(0).max(10)
+    var it = schema.generateRandomData()
+    let isAllValid = true
+    for(var c of it){
+      isAllValid = isAllValid && (c >= 0 && c <= 10 && c % 2 === 0)
+    }
+    isAllValid.should.be.true;
   })
 
 })
