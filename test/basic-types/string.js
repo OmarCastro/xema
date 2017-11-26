@@ -3,8 +3,8 @@ const should = require("chai").should()
 
 describe("testing string validation", () => {
   
-  it("should show error when validating null values", () => string.validate(null).error.should.eq("value is null"))
-  it("should show error when validating undefined values", () => string.validate(undefined).error.should.eq("value is undefined"))
+  it("should show error when validating null values", () => string.validate(null).error.should.eq("value = null is not a string"))
+  it("should show error when validating undefined values", () => string.validate(undefined).error.should.eq("value = undefined is not a string"))
   it("should show error when validating non-string values", () => {
     string.validate({}).error.should.eq("value of type object is not a string")
     string.validate(0).error.should.eq("value of type number is not a string")
@@ -32,9 +32,11 @@ describe("testing string validation", () => {
       string.contains('dolor').validate('Hello World').error.should.eq('string = "Hello World" does not contain text "dolor"')
   })
   
+  it("should not show errors when validating null values if optional", () => should.not.exist(string.optional().validate(null).error))
+  it("should not show errors when validating undefined values if optional", () => should.not.exist(string.optional().validate(undefined).error))
+    
 
-
-  it("should show not show errors when validating valid text", () => {
+  it("should not show errors when validating valid text", () => {
     should.not.exist(string.validate('Lorem ipsum').error)
     should.not.exist(string.startsWith('Lorem').endsWith('ipsum').validate('Lorem ipsum').error)
     should.not.exist(string.oneOf('a','b','c').validate('b').error)
@@ -50,6 +52,12 @@ describe("testing string schema subset validation", () => {
     const subsetResult = string.checkSubsetOf(null);
     subsetResult.isSubset.should.be.false
     subsetResult.reason.should.eq('not comparing with another StringSchema');
+  })
+  
+  it("should show error when checking optional with required", () => {
+    const subsetResult = string.optional().checkSubsetOf(string);
+    subsetResult.isSubset.should.be.false
+    subsetResult.reason.should.eq("source schema allows null values while target does not");
   })
  
  it("should show error if start string is different", () => {

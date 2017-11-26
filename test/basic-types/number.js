@@ -3,8 +3,8 @@ const should = require("chai").should()
 
 describe("testing number validation", () => {
   
-  it("should show error when validating null values", () => number.validate(null).error.should.eq("value is null"))
-  it("should show error when validating undefined values", () => number.validate(undefined).error.should.eq("value is undefined"))
+  it("should show error when validating null values", () => number.validate(null).error.should.eq("value = null is not a number"))
+  it("should show error when validating undefined values", () => number.validate(undefined).error.should.eq("value = undefined is not a number"))
   it("should show error when validating non-number values", () => {
     number.validate({}).error.should.eq("value of type object is not a number")
     number.validate("").error.should.eq("value of type string is not a number")
@@ -25,6 +25,10 @@ describe("testing number validation", () => {
     number.min(-9999999).validate(-Infinity).error.should.eq("number = -Infinity is smaller than required minimum = -9999999")
   })
   
+  it("should not show errors when validating null values if optional", () => should.not.exist(number.optional().validate(null).error))
+  it("should not show errors when validating undefined values if optional", () => should.not.exist(number.optional().validate(undefined).error))
+  
+  
   it("should show error when validating invalid integers", () => {
     number.integer().validate(1.1).error.should.eq("number = 1.1 is not divisible by = 1")
   })
@@ -44,6 +48,12 @@ describe("testing number schema subset validation", () => {
     const subsetResult = number.checkSubsetOf(null);
     subsetResult.isSubset.should.be.false
     subsetResult.reason.should.eq('not comparing with another NumberSchema');
+  })
+  
+  it("should show error when checking optional with required", () => {
+    const subsetResult = number.optional().checkSubsetOf(number);
+    subsetResult.isSubset.should.be.false
+    subsetResult.reason.should.eq("source schema allows null values while target does not");
   })
   
   it("should show error when division validation value is different", () => {
