@@ -1,4 +1,4 @@
-const string = require("../../lib/basic-types/string")
+const string = require("../../lib").string;
 const should = require("chai").should()
 
 describe("testing string validation", () => {
@@ -55,9 +55,10 @@ describe("testing string schema subset validation", () => {
   })
   
   it("should show error when checking optional with required", () => {
-    const subsetResult = string.optional().checkSubsetOf(string);
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq("source schema allows null values while target does not");
+    string.optional().checkSubsetOf(string).should.deep.eql({
+      isSubset: false,
+      reason: 'source schema allows null values while target does not'
+    })
   })
  
  it("should show error if start string is different", () => {
@@ -160,6 +161,109 @@ describe("testing string schema subset validation", () => {
     const subsetResult =  string.checkSubsetOf(string)
     subsetResult.isSubset.should.be.true;
     should.not.exist(subsetResult.reason);
+  })
+
+})
+
+describe("testing string enum schema sequential data generation", () => {
+   it("should generate the posible values of the enum", () => {
+    var it = string.oneOf("banana", "apple", "pear", "pineapple").generateSequentialData()
+    var result = []
+    for(var c of it){
+       result.push(c);
+    }
+    result.should.deep.eql(["banana", "apple", "pear", "pineapple"]);
+  })
+})
+
+
+describe("testing string enum schema random data generation", () => {
+ it("should generate the posible values of the enum", () => {
+    var it = string.oneOf("banana", "apple", "pear", "pineapple").generateRandomData()
+    var possibleValues = ["banana", "apple", "pear", "pineapple"]
+    let allTrueORFalse = true
+    for(var c of it){
+      allTrueORFalse = allTrueORFalse && possibleValues.indexOf(c) >= 0;
+      if(allTrueORFalse === false){
+        c.should.eql("mmm")
+      }
+    }
+    allTrueORFalse.should.be.true
+  })
+})
+
+describe("testing number schema sequential data generation", () => {
+  function shouldNotShowAnyErrors(iterator, schema){
+    let noErrors = true
+    for(var c of iterator){
+        noErrors = noErrors && (schema.validate(c).error == null)
+        if(noErrors === false){ schema.validate(c).should.deep.eql({}) }
+    }
+    noErrors.should.be.true
+  }
+  
+   it("should generate any number", () => {
+    var it = string.generateSequentialData()
+    shouldNotShowAnyErrors(string.generateSequentialData(), string)
+  })
+  
+  it("should generate any quarter", () => {
+    var schema = string.startsWith("beaba");
+    shouldNotShowAnyErrors(schema.generateSequentialData(), schema);
+  })
+  
+  it("should generate any integer", () => {
+    var schema = string.endsWith("beaba");
+    shouldNotShowAnyErrors(schema.generateSequentialData(), schema);
+
+  })
+  
+  it("should generate any integer pair", () => {
+    var schema = string.startsWith("Lorem").endsWith("ipsum");
+    shouldNotShowAnyErrors(schema.generateSequentialData(), schema);
+  })
+  
+   it("should generate any positive integer pair", () => {
+    var schema = string.startsWith("Lorem").contains("ipsum").endsWith("amet");
+    shouldNotShowAnyErrors(schema.generateSequentialData(), schema);
+  })
+  
+})
+
+describe("testing number schema random data generation", () => {
+  function shouldNotShowAnyErrors(iterator, schema){
+    let noErrors = true
+    for(var c of iterator){
+        noErrors = noErrors && (schema.validate(c).error == null)
+        if(noErrors === false){ schema.validate(c).should.deep.eql({}) }
+    }
+    noErrors.should.be.true
+  }
+  
+    it("should generate any number", () => {
+    var it = string.generateSequentialData()
+    shouldNotShowAnyErrors(string.generateRandomData(), string)
+  })
+  
+  it("should generate any quarter", () => {
+    var schema = string.startsWith("beaba");
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema);
+  })
+  
+  it("should generate any integer", () => {
+    var schema = string.endsWith("beaba");
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema);
+
+  })
+  
+  it("should generate any integer pair", () => {
+    var schema = string.startsWith("Lorem").endsWith("ipsum");
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema);
+  })
+  
+   it("should generate any positive integer pair", () => {
+    var schema = string.startsWith("Lorem").contains("ipsum").endsWith("amet");
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema);
   })
 
 })

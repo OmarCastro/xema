@@ -1,5 +1,5 @@
-var boolean = require("../../lib/basic-types/boolean")
-const should = require("chai").should()
+const boolean = require("../../lib").boolean;
+const should = require("chai").should();
 
 describe("testing boolean validation", () => {
   
@@ -24,24 +24,26 @@ describe("testing boolean validation", () => {
   
 })
 
-describe("testing number schema subset validation", () => {
+describe("testing boolean schema subset validation", () => {
    it("should show error when checking with null ", () => {
-    const subsetResult = boolean.checkSubsetOf(null);
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq('not comparing with another BooleanSchema');
+    boolean.checkSubsetOf(null).should.deep.eql({
+      isSubset: false,
+      reason: 'not comparing with another BooleanSchema'
+    })
   })
   
   it("should show error when checking optional with required", () => {
-    const subsetResult = boolean.optional().checkSubsetOf(boolean);
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq("source schema allows null values while target does not");
+    boolean.optional().checkSubsetOf(boolean).should.deep.eql({
+      isSubset: false,
+      reason: 'source schema allows null values while target does not'
+    })
   })
   
   
   it("should be a subset if equal", () => {
-    const subsetResult =  boolean.checkSubsetOf(boolean);
-    subsetResult.isSubset.should.be.true;
-    should.not.exist(subsetResult.reason);
+    boolean.checkSubsetOf(boolean).should.deep.eql({
+      isSubset: true
+    })
   })
 
 })
@@ -70,7 +72,7 @@ describe("testing boolean schema sequential data generation", () => {
 })
 
 
-describe("testing number boolean random data generation", () => {
+describe("testing boolean schema random data generation", () => {
  it("should generate the two posible values", () => {
     var it = boolean.generateRandomData()
     let allTrueORFalse = true

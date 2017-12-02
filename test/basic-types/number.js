@@ -1,4 +1,4 @@
-const number = require("../../lib/basic-types/number")
+const number = require("../../lib").number;
 const should = require("chai").should()
 
 describe("testing number validation", () => {
@@ -45,15 +45,17 @@ describe("testing number validation", () => {
 
 describe("testing number schema subset validation", () => {
    it("should show error when checking with null ", () => {
-    const subsetResult = number.checkSubsetOf(null);
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq('not comparing with another NumberSchema');
+    number.checkSubsetOf(null).should.deep.eql({
+      isSubset: false,
+      reason: 'not comparing with another NumberSchema'
+    })
   })
   
   it("should show error when checking optional with required", () => {
-    const subsetResult = number.optional().checkSubsetOf(number);
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq("source schema allows null values while target does not");
+     number.optional().checkSubsetOf(number).should.deep.eql({
+      isSubset: false,
+      reason: 'source schema allows null values while target does not'
+    })
   })
   
   it("should show error when division validation value is different", () => {
