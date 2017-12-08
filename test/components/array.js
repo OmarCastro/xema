@@ -1,19 +1,17 @@
-const array = require("../../lib/components/array")
-const number = require("../../lib/basic-types/number")
-const string = require("../../lib/basic-types/string")
-const boolean = require("../../lib/basic-types/boolean")
+const {boolean, number, string, array} = require("../../lib");
 const should = require("chai").should()
 
 describe("testing array validation", () => {
   
-  it("should show error when validating null values", () => array.validate(null).error.should.eq("value is null"))
-  it("should show error when validating undefined values", () => array.validate(undefined).error.should.eq("value is undefined"))
+  it("should show error when validating null values", () => array.validate(null).error.should.eq("value = null is not an array"))
+  it("should show error when validating undefined values", () => array.validate(undefined).error.should.eq("value = undefined is not an array"))
   it("should show error when validating non-array values", () => {
     array.validate({}).error.should.eq("object value is not an array")
     array.validate("").error.should.eq("value of type string is not an array")
     array.validate(true).error.should.eq("value of type boolean is not an array")
     array.validate(Symbol()).error.should.eq("value of type symbol is not an array")
   })
+  
 
   it("should show error when validating values that surpass the maximum required length", () => {
     array.maxLength(2).validate([null,1,2,3]).error.should.eq("array length = 4 is bigger than required maximum = 2")
@@ -28,8 +26,13 @@ describe("testing array validation", () => {
   it("should show error when validating values that surpass the upper bound", () => {
     var validationResult = array.of(number).validate([null])
     validationResult.error.should.have.length(1)
-    validationResult.error[0].should.deep.equal({ error: 'value is null', index: 0 })
-  })
+    validationResult.error.should.deep.equal([
+      { error: 'value = null is not a number', index: 0 }
+    ]);
+  });
+  
+  it("should not show errors when validating null values if optional", () => array.optional().validate(null).should.deep.eql({}))
+  it("should not show errors when validating undefined values if optional", () => array.optional().validate(undefined).should.deep.eql({}))
 
   
   it("should show not show error when validating valid arrays of a schema", () => {
@@ -47,6 +50,12 @@ describe("testing array schema subset validation", () => {
     const subsetResult = array.checkSubsetOf(null);
     subsetResult.isSubset.should.be.false
     subsetResult.reason.should.eq('not comparing with another ArraySchema');
+  })
+  
+  it("should show error when checking optional with required", () => {
+    const subsetResult = array.optional().checkSubsetOf(array);
+    subsetResult.isSubset.should.be.false
+    subsetResult.reason.should.eq("source schema allows null values while target does not");
   })
   
   
@@ -168,4 +177,24 @@ describe("testing array schema subset validation", () => {
     should.not.exist(subsetResult3.reason);
   })
 */
+})
+
+
+describe("testing number schema random data generation", () => {
+  function shouldNotShowAnyErrors(iterator, schema){
+    let noErrors = true
+    for(var c of iterator){
+        noErrors = noErrors && (schema.validate(c).error == null)
+        if(noErrors === false){ schema.validate(c).should.deep.eql({}) }
+    }
+    noErrors.should.be.true
+  }
+  
+  
+  it("should generate any string array", () => {
+    var schema = array.of(string.startsWith("beaba"));
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema);
+  })
+  
+
 })

@@ -1,15 +1,10 @@
-const object = require("../../lib/components/object")
-const optional = require("../../lib/components/optional")
-const array = require("../../lib/components/array")
-const number = require("../../lib/basic-types/number")
-const string = require("../../lib/basic-types/string")
-const boolean = require("../../lib/basic-types/boolean")
+const {boolean, number, string, array, object} = require("../../lib");
 const should = require("chai").should()
 
 describe("testing object validation", () => {
   
-  it("should show error when validating null values", () => object.validate(null).error.should.eq("value is null"))
-  it("should show error when validating undefined values", () => object.validate(undefined).error.should.eq("value is undefined"))
+  it("should show error when validating null values", () => object.validate(null).error.should.eq("value = null is not an object"))
+  it("should show error when validating undefined values", () => object.validate(undefined).error.should.eq("value = undefined is not an object"))
   it("should show error when validating non-object values", () => {
     object.validate(1).error.should.eq("value of type number is not an object")
     object.validate("").error.should.eq("value of type string is not an object")
@@ -17,12 +12,15 @@ describe("testing object validation", () => {
     object.validate(Symbol()).error.should.eq("value of type symbol is not an object")
   })
   
+  
   it("should not show errors when validating arrays", () => {
     object.validate([]).error.should.eq("value is an array, expected an object")
   })
 
+  it("should not show errors when validating null values if optional", () => object.optional().validate(null).should.deep.eql({}))
+  it("should not show errors when validating undefined values if optional", () => object.optional().validate(undefined).should.deep.eql({}))
 
-it("should not show errors when validating object", () => {
+  it("should not show errors when validating object", () => {
     should.not.exist(object.validate({}).error)
   })
   
@@ -63,7 +61,7 @@ it("should not show errors when validating object", () => {
       number: 11
     }).error.should.deep.eq({
       number: "number = 11 is bigger than required maximum = 10",
-      string: "value is undefined"
+      string: "value = undefined is not a string"
     })
   });
   
@@ -85,7 +83,7 @@ it("should not show errors when validating object", () => {
   it("should show record schema error when validating invalid object with numbers and optional string", () => {
     object.keys({
       number: number.max(10),
-      string: optional(string.endsWith("ok"))
+      string: string.optional().endsWith("ok")
     }).validate({
       number: 11,
     }).error.should.deep.eq({
@@ -105,15 +103,17 @@ describe("testing object schema subset validation", () => {
   })
   
   it("should show error when checking base objectSchema with objectSchema with keys ", () => {
-    const subsetResult = object.checkSubsetOf(object.keys({string}));
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq('source has no record schema map while target has map { string: StringSchema }');
+    object.checkSubsetOf(object.keys({string})).should.deep.eql({
+      isSubset: true
+    });
   })
   
+  
   it("should show error - source schema with more keys than target, one extra key", () => {
-    const subsetResult =  object.keys({number, string}).checkSubsetOf(object.keys({string}));
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq('{ number: "not comparing with another NumberSchema" }');
+    object.keys({number, string}).checkSubsetOf(object.keys({string})).should.deep.eql({
+      isSubset: false,
+      reason: '{ number: "not comparing with another NumberSchema" }'
+    });
   })
   
   it("should show error - source schema with more keys than target, more than one extra keys", () => {
@@ -128,6 +128,14 @@ describe("testing object schema subset validation", () => {
     subsetResult.reason.should.eq('{ number: "not comparing with another StringSchema" }');
   })
   
+   it("should show error - object with record to base", () => {
+    
+    object.keys({number}).checkSubsetOf(object).should.deep.eql({
+      isSubset: false,
+      "reason": "target has no record schema map while source has map { number: NumberSchema }"
+    });
+  })
+  
   it("should be a subset - source schema with less keys than target, one extra key", () => {
     const subsetResult =  object.keys({string}).checkSubsetOf(object.keys({number, string}));
     subsetResult.isSubset.should.be.true;
@@ -140,16 +148,31 @@ describe("testing object schema subset validation", () => {
     should.not.exist(subsetResult.reason);
   })
  
-  it("should be a subset - object with record to base", () => {
-    const subsetResult1 =  object.keys({number}).checkSubsetOf(object);
-    subsetResult1.isSubset.should.be.true;
-    should.not.exist(subsetResult1.reason);
-  })
+ 
   
   it("should be a subset if equal", () => {
-    const subsetResult1 =  object.keys({number}).checkSubsetOf(object.keys({number}));
-    subsetResult1.isSubset.should.be.true;
-    should.not.exist(subsetResult1.reason);
+    object.checkSubsetOf(object).should.deep.eql({
+      isSubset: true,
+    });
+  });
+  
+})
+
+describe("testing number schema random data generation", () => {
+  function shouldNotShowAnyErrors(iterator, schema){
+    let noErrors = true
+    for(var c of iterator){
+        noErrors = noErrors && (schema.validate(c).error == null)
+        if(noErrors === false){ schema.validate(c).should.deep.eql({}) }
+    }
+    noErrors.should.be.true
+  }
+  
+  
+  it("should generate any string array", () => {
+    var schema = object.keys({string: string.startsWith("beaba")});
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema);
   })
   
+
 })
