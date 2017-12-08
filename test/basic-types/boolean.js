@@ -12,8 +12,8 @@ describe("testing boolean validation", () => {
     boolean.validate(Symbol()).error.should.eq("value of type symbol is not a boolean")
   })
 
-  it("should not show errors when validating null values if optional", () => should.not.exist(boolean.optional().validate(null).error))
-  it("should not show errors when validating undefined values if optional", () => should.not.exist(boolean.optional().validate(undefined).error))
+  it("should not show errors when validating null values if optional", () => boolean.optional().validate(null).should.deep.eql({}))
+  it("should not show errors when validating undefined values if optional", () => boolean.optional().validate(undefined).should.deep.eql({}))
   
  
   
