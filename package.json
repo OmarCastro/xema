@@ -1,6 +1,6 @@
 {
-  "name": "xema-js",
-  "version": "0.1.0",
+  "name": "xema",
+  "version": "0.2.0",
   "description": "A schema validator with subset checking and data generation",
   "main": "index.js",
   "directories": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OmarCastro/xema-js.git"
+    "url": "git+https://github.com/OmarCastro/xema.git"
   },
   "author": "Omar Castro",
   "license": "ISC",
