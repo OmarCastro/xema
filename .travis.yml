@@ -2,9 +2,10 @@
 language: node_js
 sudo: false
 node_js:
-  - "9.3.0"
-  - "8"
-  - "7"
+  - "node"
+  - "iojs"
+  - "lts/*"
+  - "9"
 
 script:
   - npm test
