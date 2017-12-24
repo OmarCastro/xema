@@ -1,4 +1,4 @@
-const number = require("../../lib").number;
+const number = require("../..").number;
 const should = require("chai").should()
 
 describe("testing number validation", () => {

@@ -1,4 +1,4 @@
-const boolean = require("../../lib").boolean;
+const boolean = require("../..").boolean;
 const should = require("chai").should();
 
 describe("testing boolean validation", () => {

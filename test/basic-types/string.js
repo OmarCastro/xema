@@ -1,4 +1,4 @@
-const string = require("../../lib").string;
+const string = require("../..").string;
 const should = require("chai").should()
 
 describe("testing string validation", () => {

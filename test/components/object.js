@@ -1,4 +1,4 @@
-const {boolean, number, string, array, object} = require("../../lib");
+const {boolean, number, string, array, object} = require("../..");
 const should = require("chai").should()
 
 describe("testing object validation", () => {

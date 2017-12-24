@@ -1,4 +1,4 @@
-const {boolean, number, string, array} = require("../../lib");
+const {boolean, number, string, array} = require("../..");
 const should = require("chai").should()
 
 describe("testing array validation", () => {
@@ -180,12 +180,14 @@ describe("testing array schema subset validation", () => {
 })
 
 
-describe("testing number schema random data generation", () => {
+describe("testing array schema random data generation", () => {
   function shouldNotShowAnyErrors(iterator, schema){
     let noErrors = true
     for(var c of iterator){
         noErrors = noErrors && (schema.validate(c).error == null)
-        if(noErrors === false){ schema.validate(c).should.deep.eql({}) }
+        if(noErrors === false){ 
+          console.log(c);
+          schema.validate(c).should.deep.eql({}) }
     }
     noErrors.should.be.true
   }
@@ -193,6 +195,11 @@ describe("testing number schema random data generation", () => {
   
   it("should generate any string array", () => {
     var schema = array.of(string.startsWith("beaba"));
+    shouldNotShowAnyErrors(schema.generateRandomData(), schema);
+  })
+  
+  it("should generate any number array", () => {
+    var schema = array.of(number).maxLength(20);
     shouldNotShowAnyErrors(schema.generateRandomData(), schema);
   })
   
