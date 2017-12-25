@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "description": "A schema validator with subset checking and data generation",
   "main": "./lib/main.js",
-  "types": "./lib/main.d.ts"
+  "types": "./lib/main.d.ts",
   "directories": {
     "test": "test"
   },
