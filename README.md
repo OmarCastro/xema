@@ -4,7 +4,7 @@ Xema
  A schema validator with value type checking and data generation 
 
 [![codecov](https://codecov.io/gh/OmarCastro/xema/branch/master/graph/badge.svg)](https://codecov.io/gh/OmarCastro/xema)
-[![Build Status](https://travis-ci.org/OmarCastro/xema.png)](https://travis-ci.org/OmarCastro/xema)
+[![Build Status](https://img.shields.io/travis/OmarCastro/xema/master.svg?style=flat-square)](https://travis-ci.org/OmarCastro/xema)
 #### Features
 
 Defining a schema:
