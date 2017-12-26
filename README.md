@@ -3,8 +3,10 @@ Xema
 
  A schema validator with value type checking and data generation 
 
-[![Code Coverage](https://img.shields.io/codecov/c/github/OmarCastro/xema.svg?style=flat-square)](https://codecov.io/gh/OmarCastro/xema)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/travis/OmarCastro/xema/master.svg?style=flat-square)](https://travis-ci.org/OmarCastro/xema)
+[![Code Coverage](https://img.shields.io/codecov/c/github/OmarCastro/xema.svg?style=flat-square)](https://codecov.io/gh/OmarCastro/xema)
+
 #### Features
 
 Defining a schema:

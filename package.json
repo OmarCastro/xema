@@ -1,6 +1,6 @@
 {
   "name": "xema",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A schema validator with subset checking and data generation",
   "main": "./lib/main.js",
   "types": "./lib/main.d.ts",
@@ -27,6 +27,12 @@
     "nyc": "^11.3.0",
     "codecov": "^1.0.0"
   },
+  "files": [
+    "lib/",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
   "nyc": {
     "check-coverage": true,
     "all": true,
