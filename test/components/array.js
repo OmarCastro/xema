@@ -186,7 +186,6 @@ describe("testing array schema random data generation", () => {
     for(var c of iterator){
         noErrors = noErrors && (schema.validate(c).error == null)
         if(noErrors === false){ 
-          console.log(c);
           schema.validate(c).should.deep.eql({}) }
     }
     noErrors.should.be.true

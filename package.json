@@ -1,6 +1,6 @@
 {
   "name": "xema",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A schema validator with subset checking and data generation",
   "main": "./lib/main.js",
   "types": "./lib/main.d.ts",
@@ -23,9 +23,16 @@
   "homepage": "https://github.com/OmarCastro/xema-js#readme",
   "devDependencies": {
     "chai": "^4.1.2",
+    "codecov": "^1.0.0",
+    "eslint": "^4.14.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
-    "codecov": "^1.0.0"
+    "standard": "^10.0.3"
   },
   "files": [
     "lib/",

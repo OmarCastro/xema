@@ -108,6 +108,12 @@ describe("testing object schema subset validation", () => {
     });
   })
   
+   it("should show error when checking with boolean ", () => {
+    const subsetResult = object.checkSubsetOf(boolean);
+    subsetResult.isSubset.should.be.false
+    subsetResult.reason.should.eq('not comparing with another ObjectSchema');
+  })
+  
   
   it("should show error - source schema with more keys than target, one extra key", () => {
     object.keys({number, string}).checkSubsetOf(object.keys({string})).should.deep.eql({
