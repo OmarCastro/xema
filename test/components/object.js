@@ -89,9 +89,38 @@ describe('testing object validation', () => {
 
 describe('testing object schema subset validation', () => {
   it('should show error when checking with null ', () => {
-    const subsetResult = object.checkSubsetOf(null)
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq('not comparing with another ObjectSchema')
+    object.checkSubsetOf(null).should.deep.eql({
+      isSubset: false,
+      reason: 'target schema is null'
+    })
+  })
+  
+  it('should show error when checking with undefined ', () => {
+    object.checkSubsetOf(undefined).should.deep.eql({
+      isSubset: false,
+      reason: 'target schema is undefined'
+    })
+  })
+  
+   it('should show error when checking with a number ', () => {
+    object.checkSubsetOf(1).should.deep.eql({
+      isSubset: false,
+      reason: 'target of type number is not a schema'
+    })
+  })
+  
+   it('should show error when checking with an empty object ', () => {
+    object.checkSubsetOf({}).should.deep.eql({
+      isSubset: false,
+      reason: 'target object is not a schema'
+    })
+  })
+  
+  it('should show error when checking with a different schema ', () => {
+    object.checkSubsetOf(boolean).should.deep.eql({
+      isSubset: false,
+      reason: 'ObjectSchema cannot be a subset of BooleanSchema'
+    })
   })
 
   it('should show error when checking base objectSchema with objectSchema with keys ', () => {
@@ -100,29 +129,23 @@ describe('testing object schema subset validation', () => {
     })
   })
 
-  it('should show error when checking with boolean ', () => {
-    const subsetResult = object.checkSubsetOf(boolean)
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq('not comparing with another ObjectSchema')
-  })
-
   it('should show error - source schema with more keys than target, one extra key', () => {
     object.keys({number, string}).checkSubsetOf(object.keys({string})).should.deep.eql({
       isSubset: false,
-      reason: '{ number: "not comparing with another NumberSchema" }'
+      reason: '{ number: "target schema is undefined" }'
     })
   })
 
   it('should show error - source schema with more keys than target, more than one extra keys', () => {
     const subsetResult = object.keys({number, string, map: object}).checkSubsetOf(object.keys({string}))
     subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq('{ number: "not comparing with another NumberSchema", map: "not comparing with another ObjectSchema" }')
+    subsetResult.reason.should.eq('{ number: "target schema is undefined", map: "target schema is undefined" }')
   })
 
   it('should show error - source schema with different keys than target', () => {
     const subsetResult = object.keys({number: string}).checkSubsetOf(object.keys({string: string}))
     subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq('{ number: "not comparing with another StringSchema" }')
+    subsetResult.reason.should.eq('{ number: "target schema is undefined" }')
   })
 
   it('should show error - object with record to base', () => {

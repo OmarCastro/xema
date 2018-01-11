@@ -43,9 +43,38 @@ describe('testing array validation', () => {
 
 describe('testing array schema subset validation', () => {
   it('should show error when checking with null ', () => {
-    const subsetResult = array.checkSubsetOf(null)
-    subsetResult.isSubset.should.be.false
-    subsetResult.reason.should.eq('not comparing with another ArraySchema')
+    array.checkSubsetOf(null).should.deep.eql({
+      isSubset: false,
+      reason: 'target schema is null'
+    })
+  })
+  
+  it('should show error when checking with undefined ', () => {
+    array.checkSubsetOf(undefined).should.deep.eql({
+      isSubset: false,
+      reason: 'target schema is undefined'
+    })
+  })
+  
+   it('should show error when checking with a number ', () => {
+    array.checkSubsetOf(1).should.deep.eql({
+      isSubset: false,
+      reason: 'target of type number is not a schema'
+    })
+  })
+  
+   it('should show error when checking with an empty object ', () => {
+    array.checkSubsetOf({}).should.deep.eql({
+      isSubset: false,
+      reason: 'target object is not a schema'
+    })
+  })
+  
+  it('should show error when checking with a different schema ', () => {
+    array.checkSubsetOf(boolean).should.deep.eql({
+      isSubset: false,
+      reason: 'ArraySchema cannot be a subset of BooleanSchema'
+    })
   })
 
   it('should show error when checking optional with required', () => {
