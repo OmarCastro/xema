@@ -24,14 +24,14 @@ Values that fails on schema validation contains information about the failure
 loremSchema.validate('invalid text'); // {error: 'string = "invalid text" does not start with "Lorem"'}
 ```
 
-All schemas are immutable, so every rule added to a schema creates a new one
+All schemas are immutable, so every rule added to a schema creates a new one.
 ```Javascript
 const loremIpsumSchema = loremSchema.endsWith('ipsum');
 loremSchema.validate('Lorem ipsum dolor sit amet'); // {} 
 loremIpsumSchema.validate('Lorem ipsum dolor sit amet'); // {error: 'string = "Lorem ipsum dolor sit ame" does not end with "ipsum"'}
 ```
 
-Schemas do not allow null values by default, to allow them the optional rule must be called
+Schemas do not allow null values by default, to allow them the optional rule must be called.
 ```Javascript
 const optionalLoremIpsumSchema = loremIpsumSchema.optional();
 optionalLoremIpsumSchema.validate(null)  // {}
@@ -39,3 +39,17 @@ optionalLoremIpsumSchema.validate(undefined)  // {}
 loremIpsumSchema.validate(null) // {error: 'value = null is not a string'}
 loremIpsumSchema.validate(undefined) // {error: 'value = undefined is not a string'}
 ```
+
+
+You can check if a schema is a subset of another schema, this feature can be used for type checking. 
+
+> A schema is a subset of another schema if all values that respects the subset schema respects the superset schema.
+
+The following code shows the schema subset check usage
+```Javascript
+const optionalLoremIpsumSchema = loremIpsumSchema.optional();
+xema.string.isSubsetOf(xema.string)  // {isSubset: true}
+xema.number.isSubsetOf(xema.number.optional())  // {isSubset: true}
+xema.string.checkSubsetOf(xema.boolean) // {isSubset: false, reason: 'StringSchema cannot be a subset of BooleanSchema'}
+```
+
