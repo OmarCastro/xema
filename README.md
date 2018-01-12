@@ -10,9 +10,11 @@ Xema
 
 #### Features
 
- - No additional dependencies
  - Type checking
  - Data generation
+ - Typescript definition included
+ - No additional dependencies
+
 
 #### Getting Started
 
