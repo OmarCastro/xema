@@ -48,28 +48,28 @@ describe('testing string schema subset validation', () => {
       reason: 'target schema is null'
     })
   })
-  
+
   it('should show error when checking with undefined ', () => {
     string.checkSubsetOf(undefined).should.deep.eql({
       isSubset: false,
       reason: 'target schema is undefined'
     })
   })
-  
-   it('should show error when checking with a number ', () => {
+
+  it('should show error when checking with a number ', () => {
     string.checkSubsetOf(1).should.deep.eql({
       isSubset: false,
       reason: 'target of type number is not a schema'
     })
   })
-  
-   it('should show error when checking with an empty object ', () => {
+
+  it('should show error when checking with an empty object ', () => {
     string.checkSubsetOf({}).should.deep.eql({
       isSubset: false,
       reason: 'target object is not a schema'
     })
   })
-  
+
   it('should show error when checking with a different schema ', () => {
     const boolean = require('../..').boolean
     string.checkSubsetOf(boolean).should.deep.eql({
