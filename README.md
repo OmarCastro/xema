@@ -1,7 +1,8 @@
-Xema
+
+<img src="https://cdn.rawgit.com/OmarCastro/xema/master/icon.svg" style="height: 2em"></img>ema
 -------------
 
- A schema validator with value type checking and data generation 
+A schema validator with value type checking and data generation 
 
 [![npm](https://img.shields.io/npm/v/xema.svg?style=flat-square)](https://www.npmjs.com/package/xema)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
