@@ -1,5 +1,5 @@
 
-<img src="https://cdn.rawgit.com/OmarCastro/xema/master/icon.svg" style="height: 2em"></img>ema
+<img src="https://cdn.rawgit.com/OmarCastro/xema/master/icon.svg" height=40></img>ema
 -------------
 
 A schema validator with value type checking and data generation 
