@@ -19,6 +19,7 @@ describe('testing number validation', () => {
   })
 
   it('should show error when validating values that surpass the lower bound', () => {
+    number.positive().validate(-13).error.should.eq('number = -13 is smaller than required minimum = 0')
     number.min(-10).validate(-11).error.should.eq('number = -11 is smaller than required minimum = -10')
     number.min(-30).validate(-30.0001).error.should.eq('number = -30.0001 is smaller than required minimum = -30')
     number.min(-9999999).validate(-Infinity).error.should.eq('number = -Infinity is smaller than required minimum = -9999999')
@@ -161,6 +162,40 @@ describe('testing number schema subset validation', () => {
     should.not.exist(subsetResult3.reason)
   })
 })
+
+
+describe('testing number schema instance Validation', () => {
+ it('should show error when max is null ', () => {
+    number.max(null).isSchemaValid().should.deep.eql({
+      errors: ["maximum required value is null"]
+    })
+  })
+  it('should show error when max is undefined ', () => {
+    number.max(undefined).isSchemaValid().should.deep.eql({
+      errors: ["maximum required value is undefined"]
+    })
+  })
+  it('should show error when max is not a number ', () => {
+    number.max([]).isSchemaValid().should.deep.eql({
+      errors: ['maximum required value of type "object" is not a number']
+    })
+  })
+  it('should show error when max and min is not a number ', () => {
+    number.max([]).min({}).isSchemaValid().should.deep.eql({
+      errors: [
+        'maximum required value of type "object" is not a number',
+        'minimum required value of type "object" is not a number'
+        ]
+    })
+  })
+  it('should show error when max and min is not a number ', () => {
+    number.max(0).min(1).isSchemaValid().should.deep.eql({
+      errors: ['required minimum value = 1 is greater than required maximum = 0']
+    })
+  })
+})
+
+
 
 describe('testing number schema sequential data generation', () => {
   function shouldNotShowAnyErrors (iterator, schema) {
