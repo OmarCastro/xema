@@ -14,7 +14,6 @@ A schema validator with value type checking and data generation
  - Type checking
  - Data generation
  - Typescript definition included
- - No additional dependencies
 
 
 #### Getting Started
