@@ -216,7 +216,7 @@ describe('testing string schema instance Validation', () => {
   })
   
   it('should show error when validating a value with an invalid schema', () => {
-      string.contains({}).validate(string).should.deep.eql({
+      string.contains({}).validate("string").should.deep.eql({
         error: 'schema is invalid'
       })
   })

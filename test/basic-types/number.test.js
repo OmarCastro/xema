@@ -195,7 +195,7 @@ describe('testing number schema instance Validation', () => {
   })
   
   it('should show error when validating a value with an invalid schema', () => {
-      number.max({}).validate(number).should.deep.eql({
+      number.max({}).validate(2).should.deep.eql({
         error: 'schema is invalid'
       })
   })

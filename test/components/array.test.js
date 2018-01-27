@@ -204,10 +204,22 @@ describe('testing array schema subset validation', () => {
 })
 
 
-describe('testing number schema instance Validation', () => {
- it('should show error when max length is null ', () => {
+describe('testing array schema instance Validation', () => {
+  
+  it('should show error when max length is null ', () => {
     array.maxLength(null).isSchemaValid().should.deep.eql({
       errors: ["maximum length is null"]
+    })
+  })
+  
+  it('should show error when max length is undefined ', () => {
+    array.maxLength(undefined).isSchemaValid().should.deep.eql({
+      errors: ["maximum length is undefined"]
+    })
+  })
+  it('should show error when max length is not a number ', () => {
+    array.maxLength([]).isSchemaValid().should.deep.eql({
+      errors: ['maximum length of type "object" is not a number']
     })
   })
   
@@ -220,6 +232,17 @@ describe('testing number schema instance Validation', () => {
   it('should show error when min length is null ', () => {
     array.minLength(null).isSchemaValid().should.deep.eql({
       errors: ["minimum length is null"]
+    })
+  })
+  
+  it('should show error when min length is undefined ', () => {
+    array.minLength(undefined).isSchemaValid().should.deep.eql({
+      errors: ["minimum length is undefined"]
+    })
+  })
+  it('should show error when min length is not a number ', () => {
+    array.minLength([]).isSchemaValid().should.deep.eql({
+      errors: ['minimum length of type "object" is not a number']
     })
   })
   
@@ -242,10 +265,7 @@ describe('testing number schema instance Validation', () => {
   })
   
   it('should show error when record schema is invalid', () => {
-    let a = number.max({}).min("ss")
-    console.log(a.isSchemaValid());
-    console.log(array.of(a).info);
-    array.of(a).isSchemaValid().should.deep.eql({
+    array.of(number.max({}).min("ss")).isSchemaValid().should.deep.eql({
       errors:[{
         "schemaErrors": [
           "maximum required value of type \"object\" is not a number",
@@ -255,71 +275,44 @@ describe('testing number schema instance Validation', () => {
     })
   })
   
-  /*
-  it('should show error when max is not a number ', () => {
-    number.max([]).isSchemaValid().should.deep.eql({
-      errors: ['maximum required value of type "object" is not a number']
-    })
-  })
-  it('should show error when max and min is not a number ', () => {
-    number.max([]).min({}).isSchemaValid().should.deep.eql({
-      errors: [
-        'maximum required value of type "object" is not a number',
-        'minimum required value of type "object" is not a number'
-        ]
-    })
-  })
-  it('should show error when max and min is not a number ', () => {
-    number.max(0).min(1).isSchemaValid().should.deep.eql({
-      errors: ['required minimum value = 1 is greater than required maximum = 0']
-    })
-  })
+  
   
   it('should show error when validating a value with an invalid schema', () => {
-      number.max({}).validate(number).should.deep.eql({
+      array.maxLength({}).validate([]).should.deep.eql({
         error: 'schema is invalid'
       })
   })
   
   it('should not be a subset of an invalid schema', () => {
-      number.divisibleBy(2).checkSubsetOf(number.max(0).min(1)).should.deep.eql({
+      array.maxLength(20).checkSubsetOf(array.maxLength({})).should.deep.eql({
         isSubset: false,
         reason: 'target schema is invalid'
       })
   })
   
   it('should not be a subset of an invalid schema', () => {
-      number.max({}).checkSubsetOf(number).should.deep.eql({
+      array.maxLength({}).checkSubsetOf(array).should.deep.eql({
         isSubset: false,
         reason: 'source schema is invalid'
       })
   })
   
   it('should not be a subset of an invalid schema', () => {
-      number.max([]).checkSubsetOf(number.max([])).should.deep.eql({
+      array.maxLength({}).checkSubsetOf(array.maxLength({})).should.deep.eql({
         isSubset: false,
         reason: 'source and target schemas are invalid'
       })
-
   })
   
-  
-  it('should not generate any sequential data if invalid ', () => {
-    var result = [];
-    for (var value of number.max(0).min(1).generateSequentialData()) {
-      result.push(value);
-    }
-    result.should.eql([])
-  })
   
   it('should not generate any random data if invalid ', () => {
     var result = [];
-    for (var value of number.max(0).min(1).generateRandomData()) {
+    for (var value of array.maxLength(0).minLength(1).generateRandomData()) {
       result.push(value);
     }
     result.should.eql([])
   })
-  */
+  
 })
 
 
