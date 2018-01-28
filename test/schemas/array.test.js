@@ -203,18 +203,16 @@ describe('testing array schema subset validation', () => {
 */
 })
 
-
 describe('testing array schema instance Validation', () => {
-  
   it('should show error when max length is null ', () => {
     array.maxLength(null).isSchemaValid().should.deep.eql({
-      errors: ["maximum length is null"]
+      errors: ['maximum length is null']
     })
   })
-  
+
   it('should show error when max length is undefined ', () => {
     array.maxLength(undefined).isSchemaValid().should.deep.eql({
-      errors: ["maximum length is undefined"]
+      errors: ['maximum length is undefined']
     })
   })
   it('should show error when max length is not a number ', () => {
@@ -222,22 +220,22 @@ describe('testing array schema instance Validation', () => {
       errors: ['maximum length of type "object" is not a number']
     })
   })
-  
+
   it('should show error when max length is negative ', () => {
     array.maxLength(-1).isSchemaValid().should.deep.eql({
-      errors: ["maximum length = -1 must be a positive value"]
+      errors: ['maximum length = -1 must be a positive value']
     })
   })
-  
+
   it('should show error when min length is null ', () => {
     array.minLength(null).isSchemaValid().should.deep.eql({
-      errors: ["minimum length is null"]
+      errors: ['minimum length is null']
     })
   })
-  
+
   it('should show error when min length is undefined ', () => {
     array.minLength(undefined).isSchemaValid().should.deep.eql({
-      errors: ["minimum length is undefined"]
+      errors: ['minimum length is undefined']
     })
   })
   it('should show error when min length is not a number ', () => {
@@ -245,77 +243,71 @@ describe('testing array schema instance Validation', () => {
       errors: ['minimum length of type "object" is not a number']
     })
   })
-  
+
   it('should show error when min length is negative ', () => {
     array.minLength(-1).isSchemaValid().should.deep.eql({
-      errors: ["minimum length = -1 must be a positive value"]
+      errors: ['minimum length = -1 must be a positive value']
     })
   })
-  
+
   it('should show error when min length is greater then max length ', () => {
     array.minLength(1).maxLength(0).isSchemaValid().should.deep.eql({
-      errors: ["required minimum length = 1 is greater than required maximum length = 0"]
+      errors: ['required minimum length = 1 is greater than required maximum length = 0']
     })
   })
-  
+
   it('should show error when record schema is not a schema ', () => {
-    array.of("a").isSchemaValid().should.deep.eql({
-      errors: ["recordSchema is not a schema"]
+    array.of('a').isSchemaValid().should.deep.eql({
+      errors: ['recordSchema is not a schema']
     })
   })
-  
+
   it('should show error when record schema is invalid', () => {
-    array.of(number.max({}).min("ss")).isSchemaValid().should.deep.eql({
-      errors:[{
-        "schemaErrors": [
-          "maximum required value of type \"object\" is not a number",
-          "minimum required value of type \"string\" is not a number"
+    array.of(number.max({}).min('ss')).isSchemaValid().should.deep.eql({
+      errors: [{
+        'schemaErrors': [
+          'maximum required value of type "object" is not a number',
+          'minimum required value of type "string" is not a number'
         ]
       }]
     })
   })
-  
-  
-  
+
   it('should show error when validating a value with an invalid schema', () => {
-      array.maxLength({}).validate([]).should.deep.eql({
-        error: 'schema is invalid'
-      })
+    array.maxLength({}).validate([]).should.deep.eql({
+      error: 'schema is invalid'
+    })
   })
-  
+
   it('should not be a subset of an invalid schema', () => {
-      array.maxLength(20).checkSubsetOf(array.maxLength({})).should.deep.eql({
-        isSubset: false,
-        reason: 'target schema is invalid'
-      })
+    array.maxLength(20).checkSubsetOf(array.maxLength({})).should.deep.eql({
+      isSubset: false,
+      reason: 'target schema is invalid'
+    })
   })
-  
+
   it('should not be a subset of an invalid schema', () => {
-      array.maxLength({}).checkSubsetOf(array).should.deep.eql({
-        isSubset: false,
-        reason: 'source schema is invalid'
-      })
+    array.maxLength({}).checkSubsetOf(array).should.deep.eql({
+      isSubset: false,
+      reason: 'source schema is invalid'
+    })
   })
-  
+
   it('should not be a subset of an invalid schema', () => {
-      array.maxLength({}).checkSubsetOf(array.maxLength({})).should.deep.eql({
-        isSubset: false,
-        reason: 'source and target schemas are invalid'
-      })
+    array.maxLength({}).checkSubsetOf(array.maxLength({})).should.deep.eql({
+      isSubset: false,
+      reason: 'source and target schemas are invalid'
+    })
   })
-  
-  
+
   it('should not generate any random data if invalid ', () => {
-    var result = [];
+    var result = []
     for (var value of array.maxLength(0).minLength(1).generateRandomData()) {
-      result.push(value);
+      result.push(value)
     }
     result.should.eql([])
   })
-  
 })
-
-
 
 describe('testing array schema random data generation', () => {
   function shouldNotShowAnyErrors (iterator, schema) {

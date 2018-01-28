@@ -174,29 +174,25 @@ describe('testing object schema subset validation', () => {
   })
 })
 
-
 describe('testing number schema instance Validation', () => {
-  
   it('should show error when any key is invalid', () => {
     object.keys({ a: number.max({}) }).isSchemaValid().should.deep.eql({
       errors: [{
-        "a": [
-          "maximum required value of type \"object\" is not a number"
+        'a': [
+          'maximum required value of type "object" is not a number'
         ]
       }]
     })
   })
-  
+
   it('should not generate any random data if invalid ', () => {
-    var result = [];
+    var result = []
     for (var value of object.keys({ a: number.max({}) }).generateRandomData()) {
-      result.push(value);
+      result.push(value)
     }
     result.should.eql([])
   })
-  
 })
-
 
 describe('testing number schema random data generation', () => {
   function shouldNotShowAnyErrors (iterator, schema) {

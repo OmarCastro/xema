@@ -163,16 +163,15 @@ describe('testing number schema subset validation', () => {
   })
 })
 
-
 describe('testing number schema instance Validation', () => {
- it('should show error when max is null ', () => {
+  it('should show error when max is null ', () => {
     number.max(null).isSchemaValid().should.deep.eql({
-      errors: ["maximum required value is null"]
+      errors: ['maximum required value is null']
     })
   })
   it('should show error when max is undefined ', () => {
     number.max(undefined).isSchemaValid().should.deep.eql({
-      errors: ["maximum required value is undefined"]
+      errors: ['maximum required value is undefined']
     })
   })
   it('should show error when max is not a number ', () => {
@@ -185,7 +184,7 @@ describe('testing number schema instance Validation', () => {
       errors: [
         'maximum required value of type "object" is not a number',
         'minimum required value of type "object" is not a number'
-        ]
+      ]
     })
   })
   it('should show error when max and min is not a number ', () => {
@@ -193,55 +192,50 @@ describe('testing number schema instance Validation', () => {
       errors: ['required minimum value = 1 is greater than required maximum = 0']
     })
   })
-  
+
   it('should show error when validating a value with an invalid schema', () => {
-      number.max({}).validate(2).should.deep.eql({
-        error: 'schema is invalid'
-      })
+    number.max({}).validate(2).should.deep.eql({
+      error: 'schema is invalid'
+    })
   })
-  
-  it('should not be a subset of an invalid schema', () => {
-      number.divisibleBy(2).checkSubsetOf(number.max(0).min(1)).should.deep.eql({
-        isSubset: false,
-        reason: 'target schema is invalid'
-      })
-  })
-  
-  it('should not be a subset of an invalid schema', () => {
-      number.max({}).checkSubsetOf(number).should.deep.eql({
-        isSubset: false,
-        reason: 'source schema is invalid'
-      })
-  })
-  
-  it('should not be a subset of an invalid schema', () => {
-      number.max([]).checkSubsetOf(number.max([])).should.deep.eql({
-        isSubset: false,
-        reason: 'source and target schemas are invalid'
-      })
 
+  it('should not be a subset of an invalid schema', () => {
+    number.divisibleBy(2).checkSubsetOf(number.max(0).min(1)).should.deep.eql({
+      isSubset: false,
+      reason: 'target schema is invalid'
+    })
   })
-  
-  
+
+  it('should not be a subset of an invalid schema', () => {
+    number.max({}).checkSubsetOf(number).should.deep.eql({
+      isSubset: false,
+      reason: 'source schema is invalid'
+    })
+  })
+
+  it('should not be a subset of an invalid schema', () => {
+    number.max([]).checkSubsetOf(number.max([])).should.deep.eql({
+      isSubset: false,
+      reason: 'source and target schemas are invalid'
+    })
+  })
+
   it('should not generate any sequential data if invalid ', () => {
-    var result = [];
+    var result = []
     for (var value of number.max(0).min(1).generateSequentialData()) {
-      result.push(value);
+      result.push(value)
     }
     result.should.eql([])
   })
-  
+
   it('should not generate any random data if invalid ', () => {
-    var result = [];
+    var result = []
     for (var value of number.max(0).min(1).generateRandomData()) {
-      result.push(value);
+      result.push(value)
     }
     result.should.eql([])
   })
-  
 })
-
-
 
 describe('testing number schema sequential data generation', () => {
   function shouldNotShowAnyErrors (iterator, schema) {

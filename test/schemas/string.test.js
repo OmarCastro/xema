@@ -188,21 +188,20 @@ describe('testing string schema subset validation', () => {
   })
 })
 
-
 describe('testing string schema instance Validation', () => {
- it('should show error when endsWith is invalid', () => {
+  it('should show error when endsWith is invalid', () => {
     string.endsWith({}).isSchemaValid().should.deep.eql({
-      errors: ["endsWith value of type \"object\" is not a string"]
+      errors: ['endsWith value of type "object" is not a string']
     })
   })
   it('should show error when startsWith is invalid', () => {
     string.startsWith({}).isSchemaValid().should.deep.eql({
-      errors: ["startsWith value of type \"object\" is not a string"]
+      errors: ['startsWith value of type "object" is not a string']
     })
   })
   it('should show error when contains is invalid', () => {
     string.contains({}).isSchemaValid().should.deep.eql({
-      errors: ["contains value of type \"object\" is not a string"]
+      errors: ['contains value of type "object" is not a string']
     })
   })
   it('should show error when startsWith,endsWith and contains are invalid', () => {
@@ -211,59 +210,53 @@ describe('testing string schema instance Validation', () => {
         'startsWith value of type "number" is not a string',
         'endsWith value of type "object" is not a string',
         'contains value of type "object" is not a string'
-        ]
+      ]
     })
   })
-  
+
   it('should show error when validating a value with an invalid schema', () => {
-      string.contains({}).validate("string").should.deep.eql({
-        error: 'schema is invalid'
-      })
+    string.contains({}).validate('string').should.deep.eql({
+      error: 'schema is invalid'
+    })
   })
-  
-  it('should not be a subset of an invalid schema', () => {
-      string.contains("a").checkSubsetOf(string.contains(Infinity)).should.deep.eql({
-        isSubset: false,
-        reason: 'target schema is invalid'
-      })
-  })
-  
-  it('should not be a subset of an invalid schema', () => {
-     string.contains(1).checkSubsetOf(string).should.deep.eql({
-        isSubset: false,
-        reason: 'source schema is invalid'
-      })
-  })
-  
-  it('should not be a subset of an invalid schema', () => {
-      string.contains({}).checkSubsetOf(string.contains({})).should.deep.eql({
-        isSubset: false,
-        reason: 'source and target schemas are invalid'
-      })
 
+  it('should not be a subset of an invalid schema', () => {
+    string.contains('a').checkSubsetOf(string.contains(Infinity)).should.deep.eql({
+      isSubset: false,
+      reason: 'target schema is invalid'
+    })
   })
-  
-  
+
+  it('should not be a subset of an invalid schema', () => {
+    string.contains(1).checkSubsetOf(string).should.deep.eql({
+      isSubset: false,
+      reason: 'source schema is invalid'
+    })
+  })
+
+  it('should not be a subset of an invalid schema', () => {
+    string.contains({}).checkSubsetOf(string.contains({})).should.deep.eql({
+      isSubset: false,
+      reason: 'source and target schemas are invalid'
+    })
+  })
+
   it('should not generate any sequential data if invalid ', () => {
-    var result = [];
+    var result = []
     for (var value of string.contains({}).generateSequentialData()) {
-      result.push(value);
+      result.push(value)
     }
     result.should.eql([])
   })
-  
+
   it('should not generate any random data if invalid ', () => {
-    var result = [];
+    var result = []
     for (var value of string.contains({}).generateRandomData()) {
-      result.push(value);
+      result.push(value)
     }
     result.should.eql([])
   })
-  
-  
 })
-
-
 
 describe('testing string enum schema sequential data generation', () => {
   it('should generate the posible values of the enum', () => {
