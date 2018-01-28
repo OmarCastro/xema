@@ -165,32 +165,35 @@ describe('testing number schema subset validation', () => {
 
 describe('testing number schema instance Validation', () => {
   it('should show error when max is null ', () => {
-    number.max(null).isSchemaValid().should.deep.eql({
-      errors: ['maximum required value is null']
-    })
+    number.max(null).hasErrors.should.eql(true)
+    number.max(null).errors.should.deep.eql([
+      'maximum required value is null'
+    ])
   })
   it('should show error when max is undefined ', () => {
-    number.max(undefined).isSchemaValid().should.deep.eql({
-      errors: ['maximum required value is undefined']
-    })
+    number.max(undefined).hasErrors.should.eql(true)
+    number.max(undefined).errors.should.deep.eql([
+      'maximum required value is undefined'
+    ])
   })
   it('should show error when max is not a number ', () => {
-    number.max([]).isSchemaValid().should.deep.eql({
-      errors: ['maximum required value of type "object" is not a number']
-    })
+    number.max([]).hasErrors.should.be.true
+    number.max([]).errors.should.deep.eql([
+      'maximum required value of type "object" is not a number'
+    ])
   })
   it('should show error when max and min is not a number ', () => {
-    number.max([]).min({}).isSchemaValid().should.deep.eql({
-      errors: [
-        'maximum required value of type "object" is not a number',
-        'minimum required value of type "object" is not a number'
-      ]
-    })
+    number.max([]).min({}).hasErrors.should.be.true
+    number.max([]).min({}).errors.should.deep.eql( [
+      'maximum required value of type "object" is not a number',
+      'minimum required value of type "object" is not a number'
+    ])
   })
   it('should show error when max and min is not a number ', () => {
-    number.max(0).min(1).isSchemaValid().should.deep.eql({
-      errors: ['required minimum value = 1 is greater than required maximum = 0']
-    })
+    number.max(0).min(1).hasErrors.should.be.true
+    number.max(0).min(1).errors.should.deep.eql([
+      'required minimum value = 1 is greater than required maximum = 0'
+    ])
   })
 
   it('should show error when validating a value with an invalid schema', () => {
@@ -235,6 +238,7 @@ describe('testing number schema instance Validation', () => {
     }
     result.should.eql([])
   })
+  
 })
 
 describe('testing number schema sequential data generation', () => {

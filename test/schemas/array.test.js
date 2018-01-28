@@ -205,72 +205,83 @@ describe('testing array schema subset validation', () => {
 
 describe('testing array schema instance Validation', () => {
   it('should show error when max length is null ', () => {
-    array.maxLength(null).isSchemaValid().should.deep.eql({
-      errors: ['maximum length is null']
-    })
+    array.maxLength(null).hasErrors.should.be.true
+    array.maxLength(null).errors.should.deep.eql([
+      'maximum length is null'
+    ])
   })
 
   it('should show error when max length is undefined ', () => {
-    array.maxLength(undefined).isSchemaValid().should.deep.eql({
-      errors: ['maximum length is undefined']
-    })
+    array.maxLength(undefined).hasErrors.should.be.true
+    array.maxLength(undefined).errors.should.deep.eql([
+      'maximum length is undefined'
+    ])
   })
   it('should show error when max length is not a number ', () => {
-    array.maxLength([]).isSchemaValid().should.deep.eql({
-      errors: ['maximum length of type "object" is not a number']
-    })
+    array.maxLength([]).hasErrors.should.be.true
+    array.maxLength([]).errors.should.deep.eql([
+      'maximum length of type "object" is not a number'
+    ])
   })
 
   it('should show error when max length is negative ', () => {
-    array.maxLength(-1).isSchemaValid().should.deep.eql({
-      errors: ['maximum length = -1 must be a positive value']
-    })
+    array.maxLength(-1).hasErrors.should.be.true
+    array.maxLength(-1).errors.should.deep.eql([
+      'maximum length = -1 must be a positive value'
+    ])
   })
 
   it('should show error when min length is null ', () => {
-    array.minLength(null).isSchemaValid().should.deep.eql({
-      errors: ['minimum length is null']
-    })
+    array.minLength(null).hasErrors.should.be.true
+    array.minLength(null).errors.should.deep.eql([
+      'minimum length is null'
+    ])
   })
 
   it('should show error when min length is undefined ', () => {
-    array.minLength(undefined).isSchemaValid().should.deep.eql({
-      errors: ['minimum length is undefined']
-    })
+    array.minLength(undefined).hasErrors.should.be.true
+    array.minLength(undefined).errors.should.deep.eql([
+      'minimum length is undefined'
+    ])
   })
   it('should show error when min length is not a number ', () => {
-    array.minLength([]).isSchemaValid().should.deep.eql({
-      errors: ['minimum length of type "object" is not a number']
-    })
+    array.minLength([]).hasErrors.should.be.true
+    array.minLength([]).errors.should.deep.eql([
+      'minimum length of type "object" is not a number'
+    ])
   })
 
   it('should show error when min length is negative ', () => {
-    array.minLength(-1).isSchemaValid().should.deep.eql({
-      errors: ['minimum length = -1 must be a positive value']
-    })
+    array.minLength(-1).hasErrors.should.be.true
+    array.minLength(-1).errors.should.deep.eql([
+      'minimum length = -1 must be a positive value'
+    ])
   })
 
   it('should show error when min length is greater then max length ', () => {
-    array.minLength(1).maxLength(0).isSchemaValid().should.deep.eql({
-      errors: ['required minimum length = 1 is greater than required maximum length = 0']
-    })
+    array.minLength(1).maxLength(0).hasErrors.should.be.true
+    array.minLength(1).maxLength(0).errors.should.deep.eql([
+      'required minimum length = 1 is greater than required maximum length = 0'
+    ])
   })
 
   it('should show error when record schema is not a schema ', () => {
-    array.of('a').isSchemaValid().should.deep.eql({
-      errors: ['recordSchema is not a schema']
-    })
+    array.of('a').hasErrors.should.be.true
+    array.of('a').errors.should.deep.eql([
+      'recordSchema is not a schema'
+    ])
   })
 
   it('should show error when record schema is invalid', () => {
-    array.of(number.max({}).min('ss')).isSchemaValid().should.deep.eql({
-      errors: [{
+    array.of(number.max({}).min('ss')).hasErrors.should.be.true
+    array.of(number.max({}).min('ss')).errors.should.deep.eql([
+      {
         'schemaErrors': [
           'maximum required value of type "object" is not a number',
           'minimum required value of type "string" is not a number'
         ]
-      }]
-    })
+      }
+    ])
   })
 
   it('should show error when validating a value with an invalid schema', () => {

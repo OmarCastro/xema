@@ -190,28 +190,30 @@ describe('testing string schema subset validation', () => {
 
 describe('testing string schema instance Validation', () => {
   it('should show error when endsWith is invalid', () => {
-    string.endsWith({}).isSchemaValid().should.deep.eql({
-      errors: ['endsWith value of type "object" is not a string']
-    })
+    string.endsWith({}).hasErrors.should.be.true
+    string.endsWith({}).errors.should.deep.eql([
+      'endsWith value of type "object" is not a string'
+    ])
   })
   it('should show error when startsWith is invalid', () => {
-    string.startsWith({}).isSchemaValid().should.deep.eql({
-      errors: ['startsWith value of type "object" is not a string']
-    })
+    string.startsWith({}).hasErrors.should.be.true
+    string.startsWith({}).errors.should.deep.eql([
+      'startsWith value of type "object" is not a string'
+    ])
   })
   it('should show error when contains is invalid', () => {
-    string.contains({}).isSchemaValid().should.deep.eql({
-      errors: ['contains value of type "object" is not a string']
-    })
+    string.contains({}).hasErrors.should.be.true
+    string.contains({}).errors.should.deep.eql([
+      'contains value of type "object" is not a string'
+    ])
   })
   it('should show error when startsWith,endsWith and contains are invalid', () => {
-    string.startsWith(1).endsWith([]).contains({}).isSchemaValid().should.deep.eql({
-      errors: [
-        'startsWith value of type "number" is not a string',
-        'endsWith value of type "object" is not a string',
-        'contains value of type "object" is not a string'
-      ]
-    })
+    string.startsWith(1).endsWith([]).contains({}).hasErrors.should.be.true
+    string.startsWith(1).endsWith([]).contains({}).errors.should.deep.eql([
+      'startsWith value of type "number" is not a string',
+      'endsWith value of type "object" is not a string',
+      'contains value of type "object" is not a string'
+    ])
   })
 
   it('should show error when validating a value with an invalid schema', () => {
