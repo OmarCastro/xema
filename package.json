@@ -1,12 +1,17 @@
 {
   "name": "xema",
-  "version": "0.6.0",
+  "version": "0.6.0-SNAPSHOT",
   "description": "A schema validator with subset checking and data generation",
   "main": "./lib/main.js",
   "types": "./lib/main.d.ts",
   "directories": {
     "test": "test"
   },
+  "keywords": [
+    "schema",
+    "validation",
+    "generation"
+  ],
   "scripts": {
     "test": "nyc mocha",
     "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
