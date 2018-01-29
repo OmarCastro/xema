@@ -184,7 +184,7 @@ describe('testing number schema instance Validation', () => {
   })
   it('should show error when max and min is not a number ', () => {
     number.max([]).min({}).hasErrors.should.be.true
-    number.max([]).min({}).errors.should.deep.eql( [
+    number.max([]).min({}).errors.should.deep.eql([
       'maximum required value of type "object" is not a number',
       'minimum required value of type "object" is not a number'
     ])
@@ -238,7 +238,6 @@ describe('testing number schema instance Validation', () => {
     }
     result.should.eql([])
   })
-  
 })
 
 describe('testing number schema sequential data generation', () => {
