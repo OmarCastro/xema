@@ -9,19 +9,20 @@ A schema validator with value type checking and data generation
 [![Build Status](https://img.shields.io/travis/OmarCastro/xema/master.svg?style=flat-square)](https://travis-ci.org/OmarCastro/xema)
 [![Code Coverage](https://img.shields.io/codecov/c/github/OmarCastro/xema.svg?style=flat-square)](https://codecov.io/gh/OmarCastro/xema)
 
-#### Features
-
- - Type checking
- - Data generation
- - Typescript definition included
-
-
 #### Getting Started
 
 Install with npm:
 ```Bash
 npm install xema
 ```
+
+#### Features
+
+ - Type checking
+ - Data generation
+ - Typescript definition included
+ - Schema validation checking
+
 
 Defining a schema:
 ```Javascript
