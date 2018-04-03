@@ -2,7 +2,7 @@
 <img src="https://cdn.rawgit.com/OmarCastro/xema/master/icon.svg" height=40></img>ema
 -------------
 
-A schema validator with value type checking and data generation 
+A schema validator with subset check and data generation 
 
 [![npm](https://img.shields.io/npm/v/xema.svg?style=flat-square)](https://www.npmjs.com/package/xema)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](https://opensource.org/licenses/MIT)
@@ -18,7 +18,7 @@ npm install xema
 
 #### Features
 
- - Type checking
+ - Subset check
  - Data generation
  - Typescript definition included
  - Schema validation checking

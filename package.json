@@ -1,6 +1,6 @@
 {
   "name": "xema",
-  "version": "1.0.0-rc",
+  "version": "1.0.0",
   "description": "A schema validator with subset checking and data generation",
   "main": "./lib/main.js",
   "types": "./lib/main.d.ts",
