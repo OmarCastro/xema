@@ -14,7 +14,11 @@
   ],
   "scripts": {
     "test": "nyc mocha",
-    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
+    "lint": "eslint .",
+    "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "watch:js": "onchange \"lib\" \"test\" -- run-s lint test",
+    "watch": "run-p watch:*",
+    "start": "run-s watch"
   },
   "repository": {
     "type": "git",
@@ -37,7 +41,9 @@
     "eslint-plugin-standard": "^3.0.1",
     "mocha": "^4.0.1",
     "nyc": "^11.3.0",
-    "standard": "^10.0.3"
+    "standard": "^10.0.3",
+    "onchange": "^2.4.0",
+    "npm-run-all": "^2.1.1"
   },
   "files": [
     "lib/",

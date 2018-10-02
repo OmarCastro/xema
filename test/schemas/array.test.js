@@ -140,67 +140,58 @@ describe('testing array schema subset validation', () => {
   })
 
   it('should be a subset on equal record schema - string', () => {
-    const subsetResult = array.of(string).checkSubsetOf(array.of(string))
-    subsetResult.isSubset.should.be.true
-    should.not.exist(subsetResult.reason)
+    array.of(string).checkSubsetOf(array.of(string)).should.eql({
+      isSubset: true
+    })
   })
 
   it('should be a subset on equal record schema - boolean', () => {
-    const subsetResult = array.of(boolean).checkSubsetOf(array.of(boolean))
-    subsetResult.isSubset.should.be.true
-    should.not.exist(subsetResult.reason)
+    array.of(boolean).checkSubsetOf(array.of(boolean)).should.eql({
+      isSubset: true
+    })
   })
 
   it('should be a subset on equal record schema - array', () => {
-    const subsetResult = array.of(array).checkSubsetOf(array.of(array))
-    subsetResult.isSubset.should.be.true
-    should.not.exist(subsetResult.reason)
+    array.of(array).checkSubsetOf(array.of(array)).should.eql({
+      isSubset: true
+    })
   })
 
   it('should be a subset on equal record schema - array of number', () => {
-    const subsetResult = array.of(array.of(number)).checkSubsetOf(array.of(array.of(number)))
-    subsetResult.isSubset.should.be.true
-    should.not.exist(subsetResult.reason)
+    array.of(array.of(number)).checkSubsetOf(array.of(array.of(number))).should.eql({
+      isSubset: true
+    })
   })
 
   it('should be a subset on equal record schema - array of string', () => {
-    const subsetResult = array.of(array.of(string)).checkSubsetOf(array.of(array.of(string)))
-    subsetResult.isSubset.should.be.true
-    should.not.exist(subsetResult.reason)
+    array.of(array.of(string)).checkSubsetOf(array.of(array.of(string))).should.eql({
+      isSubset: true
+    })
   })
 
   it('should be a subset on equal record schema - array of boolean', () => {
-    const subsetResult = array.of(array.of(boolean)).checkSubsetOf(array.of(array.of(boolean)))
-    subsetResult.isSubset.should.be.true
-    should.not.exist(subsetResult.reason)
+    array.of(array.of(boolean)).checkSubsetOf(array.of(array.of(boolean))).should.eql({
+      isSubset: true
+    })
   })
 
   it('should be a subset on equal record schema - array of array', () => {
-    const subsetResult = array.of(array.of(array)).checkSubsetOf(array.of(array.of(array)))
-    subsetResult.isSubset.should.be.true
-    should.not.exist(subsetResult.reason)
-  })
-  /*
-  it("should be a subset of target without division check", () => {
-    const subsetResult =  array.divisibleBy(2).checkSubsetOf(array);
-    subsetResult.isSubset.should.be.true;
-    should.not.exist(subsetResult.reason);
+    array.of(array.of(array)).checkSubsetOf(array.of(array.of(array))).should.eql({
+      isSubset: true
+    })
   })
 
-  it("should be a subset if equal", () => {
-    const subsetResult1 =  array.min(0).max(10).checkSubsetOf(array.min(0).max(10));
-    subsetResult1.isSubset.should.be.true;
-    should.not.exist(subsetResult1.reason);
-
-    const subsetResult2 =  array.min(-9999).max(9999).checkSubsetOf(array.min(-9999).max(9999));
-    subsetResult2.isSubset.should.be.true;
-    should.not.exist(subsetResult2.reason);
-
-    const subsetResult3 =  array.checkSubsetOf(array);
-    subsetResult3.isSubset.should.be.true;
-    should.not.exist(subsetResult3.reason);
+  it('should be a subset if equal - base array', () => {
+    array.checkSubsetOf(array).should.eql({
+      isSubset: true
+    })
   })
-*/
+
+  it('should be a subset if equal - same min and max value', () => {
+    array.minLength(0).maxLength(10).checkSubsetOf(array.minLength(0).maxLength(10)).should.eql({
+      isSubset: true
+    })
+  })
 })
 
 describe('testing array schema instance Validation', () => {
