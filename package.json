@@ -18,7 +18,7 @@
     "report-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
     "watch:js": "onchange \"lib\" \"test\" -- run-s lint test",
     "watch": "run-p watch:*",
-    "start": "run-s watch"
+    "start": "run-s lint test watch"
   },
   "repository": {
     "type": "git",
